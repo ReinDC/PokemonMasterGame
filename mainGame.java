@@ -6,7 +6,7 @@ public class mainGame{
     * Prints the list of evolution level 1 pokemons from the list
     * of pokemons.
     */
-    private void printLevel1(){
+    public void printLevel1(){
         List<pokemons> list = pokemons.pokeList();
 
         System.out.println("====================Pokemon List====================");
@@ -27,7 +27,7 @@ public class mainGame{
     * @param inv - the instance of the inventory class found in main
     * @param input - the instance of a Scanner object found in main
     */
-    private void chooseStarter(inventory inv, Scanner input){
+    public void chooseStarter(inventory inv, Scanner input){
         mainGame game = new mainGame();
         List<pokemons> list = pokemons.pokeList();
         pokemons starter = null;
@@ -67,7 +67,7 @@ public class mainGame{
     * pokemons caught by the user and highlights what pokemon is active.
     * @param inv - the instance of the inventory class found in main
     */
-    private void printInv(inventory inv){
+    public void printInv(inventory inv){
         int active = 0;
         System.out.println();
         System.out.println("====================Inventory====================");
@@ -96,7 +96,7 @@ public class mainGame{
     * @param inv - the instance of the inventory class found in main
     * @param input - the instance of a Scanner object found in main
     */
-    private void inventoryMenu(inventory inv, Scanner input){
+    public void inventoryMenu(inventory inv, Scanner input){
         mainGame game = new mainGame();
         int size = inv.getInventorySize();
         List<pokemons> list = inv.getInventory();
@@ -158,7 +158,7 @@ public class mainGame{
     * @param inv - the instance of the inventory class found in main
     * @return choice - the choice of the user from the given list
     */
-    private int mainMenu(Scanner input){
+    public int mainMenu(Scanner input){
         int mainChoice = 0;
         
         System.out.println();
@@ -182,7 +182,7 @@ public class mainGame{
     * @param inv - the instance of the inventory class found in main
     * @param input - the instance of a Scanner object found in main
     */
-    private void areaExplo(Scanner input, inventory inv){
+    public void areaExplo(Scanner input, inventory inv){
         Random random = new Random();
         area area = new area();
         int move = 0, exit = 0, mCounter = 0, battle = 100;
@@ -259,7 +259,7 @@ public class mainGame{
     *                variable if the player have successfully catched the wild pokemon
     *                or chooses to run away from the encounter.
     */
-    private int battlePhase(area area, Scanner input, inventory inv, pokemons enemy, int tick){
+    public int battlePhase(area area, Scanner input, inventory inv, pokemons enemy, int tick){
         Random r = new Random();
         mainGame m = new mainGame();
         int rands = r.nextInt(1,10), dmg = 0, rate = r.nextInt(1, 100), catchRate;
@@ -340,7 +340,7 @@ public class mainGame{
     }
 
 
-    public static void main(String[] args){
+    public void play(){
         mainGame game = new mainGame();
         Scanner input = new Scanner(System.in);
         inventory mainInven = new inventory();

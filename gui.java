@@ -1,44 +1,159 @@
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 
-public class SimpleGamepadGUI extends Application {
+public class gui{
 
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Simple Gamepad GUI");
+    public void chooseStarter(){
+        JFrame frame;
+        final String chosenStarter;
+        
+        frame = new JFrame("Pokemon Master");
+        JPanel panel = new JPanel();
 
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 250);
 
-        // Create buttons for up, down, left, and right
-        Button upButton = new Button("Up");
-        Button downButton = new Button("Down");
-        Button leftButton = new Button("Left");
-        Button rightButton = new Button("Right");
+        mainGame a = new mainGame();
 
-        // Add buttons to the grid
-        gridPane.add(upButton, 1, 0);
-        gridPane.add(downButton, 1, 2);
-        gridPane.add(leftButton, 0, 1);
-        gridPane.add(rightButton, 2, 1);
+        JLabel name = new JLabel();
+        name.setText("Choose a starter: ");
 
-        // Set event handlers for the buttons (you can replace these with your game logic)
-        upButton.setOnAction(e -> System.out.println("Up button pressed"));
-        downButton.setOnAction(e -> System.out.println("Down button pressed"));
-        leftButton.setOnAction(e -> System.out.println("Left button pressed"));
-        rightButton.setOnAction(e -> System.out.println("Right button pressed"));
+        ArrayList<String> options = a.loadNameLevel1();
+        JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
 
-        Scene scene = new Scene(gridPane, 200, 200);
-        primaryStage.setScene(scene);
+        JButton submitButton = new JButton("Choose");
+                
 
-        primaryStage.show();
+        panel.add(name);        
+        panel.add(dropdown);
+        panel.add(submitButton);
+
+        
+        chosenStarter = (String) dropdown.getSelectedItem();
+
+        submitButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){                
+                JOptionPane.showMessageDialog(null, "You have selected the pokemon:" + chosenStarter);
+                frame.dispose();
+
+                mainMenu();
+            }
+        });
+
+        frame.add(panel);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public void mainMenu(){
+        JFrame frame;
+        
+        frame = new JFrame("Pokemon Master");
+        JPanel panel = new JPanel(new GridLayout(4, 1));
+
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 200);
+
+
+        JButton invButton = new JButton("Inventory");
+        JButton expButton = new JButton("Explore an Area");
+        JButton evoButton = new JButton("Evolve a pokemon");
+        JButton exitButton = new JButton("Exit");
+
+        
+      
+        /* 
+        invButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                inventoryWindow();
+
+                
+            }
+        });
+        */
+
+        invButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                inventoryWindow();
+
+                
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+            }
+        });
+
+        panel.add(invButton);
+        panel.add(expButton);
+        panel.add(evoButton);
+        panel.add(exitButton);
+
+        frame.add(panel);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
+
+    public void inventoryWindow(){
+        JFrame frame;
+        
+        frame = new JFrame("Pokemon Master");
+        JPanel panel = new JPanel();
+        JPanel buttons = new JPanel();
+
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 200);
+
+        
+
+        JButton changeActiveButton = new JButton("Change active pokemon");
+        JButton backButton = new JButton("Back");
+
+
+
+
+
+        backButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                mainMenu();
+
+                
+            }
+        });
+
+        buttons.add(changeActiveButton);
+        buttons.add(backButton);
+
+
+        frame.add(panel);
+        frame.add(buttons, BorderLayout.SOUTH);
+
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+
+    public static void main(String[] args){
+        gui a = new gui();
+        a.chooseStarter();
+    }    
 }

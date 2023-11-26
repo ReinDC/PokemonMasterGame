@@ -22,6 +22,26 @@ public class mainGame{
     }
 
     /**
+    * Gets the names of evolution level 1 pokemons from the list
+    * of pokemons.
+    */
+    public ArrayList<String> loadNameLevel1(){
+        List<pokemons> list = pokemons.pokeList();
+        ArrayList<String> names = new ArrayList<>();
+
+
+        for (pokemons pokemon : list){
+            if(pokemon.getLevel() == 1){
+                String name = pokemon.getName();
+                names.add(name);
+            }
+
+        }
+        return names;
+    }
+    
+
+    /**
     * Prints all of the starter pokemons aka (evolution level 1 pokemons) and
     * asks the user to choose then adds the chosen pokemon to their inventory.
     * @param inv - the instance of the inventory class found in main

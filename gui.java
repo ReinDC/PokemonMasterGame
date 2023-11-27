@@ -5,8 +5,8 @@ import java.util.*;
 import java.util.List;
 
 public class gui extends misc{
-    public inventory inv = new inventory();
-    public List<pokemons> allPokemonList = pokemons.pokeList();
+    private inventory inv = new inventory();
+    private List<pokemons> allPokemonList = pokemons.pokeList();
    
     public void chooseStarter(){
         JFrame frame;
@@ -55,9 +55,9 @@ public class gui extends misc{
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
-                        inv.addPokemon(allPokemonList.get(18));
-                        inv.addPokemon(allPokemonList.get(22));
-                        inv.addPokemon(allPokemonList.get(3));
+                        inv.addPokemon(pokemon);
+                        inv.addPokemon(pokemon);
+                        inv.addPokemon(pokemon);
                     }
                 }
                 // JOptionPane.showMessageDialog(null, filepath);
@@ -87,20 +87,16 @@ public class gui extends misc{
         JButton evoButton = new JButton("Evolve a pokemon");
         JButton exitButton = new JButton("Exit");
 
-        
-      
-        /* 
-        expButton.addActionListener(new ActionListener(){
+        evoButton.addActionListener(new ActionListener(){
             @Override
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
-                exploreWindow();
+                evolveWindow();
 
                 
             }
         });
-        */
 
         expButton.addActionListener(new ActionListener(){
             @Override
@@ -255,13 +251,11 @@ public class gui extends misc{
 
         JLabel name = new JLabel("Choose: ");
 
-        ArrayList<String> options = a.loadNameLevel1();
+        ArrayList<String> options = inv.getNames();
         JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
         
         // ImageIcon icon = new ImageIcon(filepath);
         JLabel imageDisplay = new JLabel();
-        ImageIcon icon = new ImageIcon("src\\strawander.png");
-        imageDisplay.setIcon(icon);
         // imageDisplay.setText(chosenStarter);
         
 
@@ -287,11 +281,7 @@ public class gui extends misc{
                 // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
                 for(pokemons pokemon : allPokemonList){
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
-                        inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
-                        inv.addPokemon(allPokemonList.get(18));
-                        inv.addPokemon(allPokemonList.get(22));
-                        inv.addPokemon(allPokemonList.get(3));
                     }
                 }
                 // JOptionPane.showMessageDialog(null, filepath);
@@ -327,7 +317,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
-                Area1Window();
+                // Area1Window();
             }
         });
 
@@ -352,40 +342,66 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
-    public void Area1Window(){
+    public void evolveWindow(){
         JFrame frame;
         
         frame = new JFrame("Pokemon Master");
-        JPanel panel = new JPanel(new GridLayout(4, 1));
+        JPanel panel = new JPanel(new GridLayout(1, 2));
+        JPanel buttons = new JPanel();
 
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 200);
 
 
+        JLabel poke1 = new JLabel("aaa");
+        JLabel poke2 = new JLabel("bbb");
 
+        JButton evolve1Button = new JButton("Choose the pokemon #1");
+        JButton evolve2Button = new JButton("Choose the pokemon #2");
+        JButton backButton = new JButton("Exit");
 
         
-        JButton backButton = new JButton("Back");
 
-        
+
+        evolve1Button.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+
+                
+            }
+        });
+
+        evolve2Button.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+
+                
+            }
+        });
+
         backButton.addActionListener(new ActionListener(){
             @Override
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
-                exploreWindow();
+                mainMenu();
             }
         });
 
-        panel.add(backButton);
+        panel.add(poke1);
+        panel.add(poke2);
 
+        buttons.add(evolve1Button);
+        buttons.add(evolve2Button);
+        buttons.add(backButton);
 
-        frame.add(panel);
-
+        frame.add(panel, BorderLayout.CENTER);
+        frame.add(buttons, BorderLayout.SOUTH);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
     }
     public static void main(String[] args){
         gui a = new gui();

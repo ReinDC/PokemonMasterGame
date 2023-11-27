@@ -55,9 +55,9 @@ public class gui extends misc{
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
-                        inv.addPokemon(pokemon);
-                        inv.addPokemon(pokemon);
-                        inv.addPokemon(pokemon);
+                        inv.addPokemon(allPokemonList.get(5));
+                        inv.addPokemon(allPokemonList.get(15));
+                        inv.addPokemon(allPokemonList.get(25));
                     }
                 }
                 // JOptionPane.showMessageDialog(null, filepath);
@@ -284,7 +284,7 @@ public class gui extends misc{
                 }
                 // JOptionPane.showMessageDialog(null, filepath);
                 frame.dispose();
-                mainMenu();
+                inventoryWindow();
             }
         });
 
@@ -342,22 +342,43 @@ public class gui extends misc{
 
     public void evolveWindow(){
         JFrame frame;
-        
         frame = new JFrame("Pokemon Master");
-        JPanel panel = new JPanel(new GridLayout(1, 2));
+        JPanel panel = new JPanel(new GridLayout(3, 2));
         JPanel buttons = new JPanel();
 
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 200);
+        frame.setSize(700, 500);
 
 
-        JLabel poke1 = new JLabel("aaa");
-        JLabel poke2 = new JLabel("bbb");
+        JLabel poke1 = new JLabel();
+        JLabel poke2 = new JLabel();
+
+        JLabel poke1Name = new JLabel();
+        JLabel poke2Name = new JLabel();
+
+        JLabel poke1EL = new JLabel();
+        JLabel poke2EL = new JLabel();
+
+        ImageIcon icon1, icon2;
+
+        if(chosen1 != null){
+            icon1 = new ImageIcon(getImagePath(chosen1.getName()));
+            poke1.setIcon(icon1);
+            poke1Name.setText("Name: " + chosen1.getName());
+            poke1EL.setText("Evolution Level: " + chosen1.getLevel());
+        }
+
+        if(chosen2 != null){
+            icon2 = new ImageIcon(getImagePath(chosen2.getName()));
+            poke2.setIcon(icon2);
+            poke2Name.setText("Name: " + chosen2.getName());
+            poke2EL.setText("Evolution Level: " + chosen2.getLevel());
+        }
 
         JButton evolve1Button = new JButton("Choose the pokemon #1");
         JButton evolve2Button = new JButton("Choose the pokemon #2");
-        JButton backButton = new JButton("Exit");
+        JButton backButton = new JButton("Back");
 
         
 
@@ -366,8 +387,8 @@ public class gui extends misc{
             @Override
             
             public void actionPerformed(ActionEvent e){
-
-                
+                frame.dispose();
+                choosePokeEvo1();
             }
         });
 
@@ -375,8 +396,8 @@ public class gui extends misc{
             @Override
             
             public void actionPerformed(ActionEvent e){
-
-                
+                frame.dispose();
+                choosePokeEvo2();
             }
         });
 
@@ -392,6 +413,12 @@ public class gui extends misc{
         panel.add(poke1);
         panel.add(poke2);
 
+        panel.add(poke1Name);
+        panel.add(poke2Name);
+        
+        panel.add(poke1EL);
+        panel.add(poke2EL);
+
         buttons.add(evolve1Button);
         buttons.add(evolve2Button);
         buttons.add(backButton);
@@ -402,9 +429,8 @@ public class gui extends misc{
         frame.setVisible(true);
     }
     
-    public void choosePokeEvo(){
-        JFrame frame;
-        
+    public void choosePokeEvo1(){
+        JFrame frame;        
         frame = new JFrame("Pokemon Master");
         JPanel panel = new JPanel();
 
@@ -418,12 +444,15 @@ public class gui extends misc{
         JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
         
         JLabel imageDisplay = new JLabel();
-        
-        dropdown.addItemListener(new ItemListener() {
+        updateImageLabel(imageDisplay ,(String) dropdown.getSelectedItem());
+
+        dropdown.addItemListener(new ItemListener(){
             @Override
             public void itemStateChanged(ItemEvent e){
-                if (e.getStateChange() == ItemEvent.SELECTED) {
+                if (e.getStateChange() == ItemEvent.SELECTED){
+                    // imageDisplay.setText((String) e.getItem());
                     updateImageLabel(imageDisplay ,(String) e.getItem());
+                    // updateChosen1((String) e.getItem());
                 }
             }
         });
@@ -438,15 +467,58 @@ public class gui extends misc{
         submitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
-                for(pokemons pokemon : allPokemonList){
-                    if(pokemon.getName() == (String) dropdown.getSelectedItem()){
-                        
-                    }
-                }
-                // JOptionPane.showMessageDialog(null, filepath);
+                updateChosen1((String) dropdown.getSelectedItem());
                 frame.dispose();
-                mainMenu();
+                evolveWindow();
+            }
+        });
+
+        frame.add(panel);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public void choosePokeEvo2(){
+        JFrame frame;        
+        frame = new JFrame("Pokemon Master");
+        JPanel panel = new JPanel();
+
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 250);
+
+        JLabel name = new JLabel("Choose the pokemon:");
+
+        ArrayList<String> options = inv.getNames();
+        JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
+        
+        JLabel imageDisplay = new JLabel();
+        updateImageLabel(imageDisplay ,(String) dropdown.getSelectedItem());
+
+        dropdown.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if (e.getStateChange() == ItemEvent.SELECTED){
+                    // imageDisplay.setText((String) e.getItem());
+                    updateImageLabel(imageDisplay ,(String) e.getItem());
+                    // updateChosen2((String) e.getItem());
+                }
+            }
+        });
+
+        JButton submitButton = new JButton("Choose");
+
+        panel.add(name);      
+        panel.add(dropdown);
+        panel.add(submitButton);
+        panel.add(imageDisplay);
+
+        submitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                updateChosen2((String) dropdown.getSelectedItem());
+                frame.dispose();
+                evolveWindow();
             }
         });
 
@@ -461,6 +533,8 @@ public class gui extends misc{
 }
 
 class misc{
+    private List<pokemons> allPokemonList = pokemons.pokeList();
+    public pokemons chosen1 = null, chosen2 = null;
     /* 
     public String getListAsString(List<pokemons> a){
         StringBuilder result = new StringBuilder();
@@ -485,5 +559,37 @@ class misc{
         String path = getImagePath(selectedItem);
         ImageIcon icon = new ImageIcon(path);
         imageLabel.setIcon(icon);
+    }
+
+    public void updateChosen1(String source){
+        pokemons temp = null;
+
+        for(pokemons p : allPokemonList){
+            if(p.getName() == source){
+                temp = p;
+            }
+        }
+
+        chosen1 = temp;
+    }
+
+    public void updateChosen2(String source){
+        pokemons temp = null;
+
+        for(pokemons p : allPokemonList){
+            if(p.getName() == source){
+                temp = p;
+            }
+        }
+
+        chosen2 = temp;
+    }
+
+    public void getChosen1(pokemons dest, pokemons chosen1){
+        dest = chosen1;
+    }
+
+    public void getChosen2(pokemons dest, pokemons chosen2){
+        dest = chosen2;
     }
 }

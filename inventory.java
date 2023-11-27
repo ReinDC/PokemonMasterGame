@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class inventory{
-    private List<pokemons> inventory = new ArrayList<>();
+    public List<pokemons> inventory = new ArrayList<>();
     private pokemons activePokemon = null;
 
     /**

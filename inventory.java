@@ -55,16 +55,6 @@ public class inventory{
         return names;
     }
 
-    /* 
-    public void removePokemon(pokemons target){
-        for(pokemons p : inventory){
-            if(target.getName() == p.getName()){
-                inventory.remove(p);
-            }
-        }
-    }
-    */
-    
     public pokemons getEvloved(pokemons p1){
         List<pokemons> allList = pokemons.pokeList();
         pokemons test = null;
@@ -77,7 +67,6 @@ public class inventory{
 
         return test;
     }
-    
     
     public int evolvePokemon(pokemons p1, pokemons p2){
         int ctr = 0;
@@ -92,6 +81,9 @@ public class inventory{
             if(ctr == 2){
                 pokemons t = getEvloved(p1);
                 addPokemon(t);
+
+                inventory.remove(p1);
+                inventory.remove(p2);
                 return 1;
             }
         }

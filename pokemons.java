@@ -63,7 +63,7 @@ public class pokemons{
 
             // Family A
             Pokemons.add(new pokemons("Strawander", "Fire", 1, 'A')); // 0
-            Pokemons.add(new pokemons("Strawleon", "Fire", 2, 'A'));
+            Pokemons.add(new pokemons("Straweleon", "Fire", 2, 'A'));
             Pokemons.add(new pokemons("Strawizard", "Fire", 3, 'A'));
 
             // Family B

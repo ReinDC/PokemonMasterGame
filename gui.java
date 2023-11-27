@@ -55,8 +55,6 @@ public class gui extends misc{
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
-                        inv.addPokemon(pokemon);
-
                     }
                 }
                 // JOptionPane.showMessageDialog(null, filepath);
@@ -417,10 +415,11 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 int i = inv.evolvePokemon(chosen1, chosen2);
-
                 
                 if(i == 1){
                     JOptionPane.showMessageDialog(null, "Evolution Success!");
+                    inv.removePokemon(chosen1);
+                    inv.removePokemon(chosen2);
                 }
 
                 else{

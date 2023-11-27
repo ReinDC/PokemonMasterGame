@@ -55,6 +55,16 @@ public class inventory{
         return names;
     }
 
+    public void removePokemon(pokemons target){
+        for(pokemons p : inventory){
+            if(p.getName() == target.getName()){
+                inventory.remove(p);
+                break;
+            }
+        }
+
+    }
+
     public pokemons getEvloved(pokemons p1){
         List<pokemons> allList = pokemons.pokeList();
         pokemons test = null;
@@ -82,8 +92,6 @@ public class inventory{
                 pokemons t = getEvloved(p1);
                 addPokemon(t);
 
-                inventory.remove(p1);
-                inventory.remove(p2);
                 return 1;
             }
         }

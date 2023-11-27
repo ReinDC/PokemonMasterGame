@@ -251,9 +251,7 @@ public class gui extends misc{
         ArrayList<String> options = inv.getNames();
         JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
         
-        // ImageIcon icon = new ImageIcon(filepath);
         JLabel imageDisplay = new JLabel();
-        // imageDisplay.setText(chosenStarter);
         
 
         dropdown.addItemListener(new ItemListener() {
@@ -276,7 +274,7 @@ public class gui extends misc{
             @Override
             public void actionPerformed(ActionEvent e){
                 // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
-                for(pokemons pokemon : allPokemonList){
+                for(pokemons pokemon : inv.inventory){
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.setActivePokemon(pokemon);
                     }
@@ -381,11 +379,9 @@ public class gui extends misc{
         JButton evolve2Button = new JButton("Choose the pokemon #2");
         JButton evolve = new JButton("Evolve");
         JButton backButton = new JButton("Back");
-
         if(chosen1 != null && chosen2 != null){
             buttons.add(evolve);
         }
-
 
         evolve1Button.addActionListener(new ActionListener(){
             @Override
@@ -420,9 +416,17 @@ public class gui extends misc{
             @Override
             
             public void actionPerformed(ActionEvent e){
+                int i = inv.evolvePokemon(chosen1, chosen2);
+
                 
+                if(i == 1){
+                    JOptionPane.showMessageDialog(null, "Evolution Success!");
+                }
+
+                else{
+                    JOptionPane.showMessageDialog(null, "Evolution Failed!");
+                }
                 
-                JOptionPane.showMessageDialog(null, "test");
                 frame.dispose();
                 mainMenu();
             }

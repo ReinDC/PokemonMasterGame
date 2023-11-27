@@ -55,6 +55,7 @@ public class inventory{
         return names;
     }
 
+    /* 
     public void removePokemon(pokemons target){
         for(pokemons p : inventory){
             if(target.getName() == p.getName()){
@@ -62,31 +63,42 @@ public class inventory{
             }
         }
     }
+    */
+    
+    public pokemons getEvloved(pokemons p1){
+        List<pokemons> allList = pokemons.pokeList();
+        pokemons test = null;
 
-    public pokemons getEvolved(pokemons target){
-        // List<pokemons> allList = pokemons.pokeList();
-        // int i = allList.indexOf(target);
-        // pokemons evolved = allList.get(i);
-
-        return target;
-    }
-
-    /* 
-    public void evolvePokemon(pokemons p1, pokemons p2){
-        int i;
-        
-        if(p1.getName() == p2.getName()){
-                
-                addPokemon(evolved);
-
-                removePokemon(p2);
-                removePokemon(p1);
-                // return 1; // Success
+        for(pokemons p : allList){
+            if(p.getFamily() == p1.getFamily() && p1.getLevel() + 1 == p.getLevel()){
+                test = p;
+            }
         }
 
-        // return 0;
+        return test;
     }
-     */
+    
+    
+    public int evolvePokemon(pokemons p1, pokemons p2){
+        int ctr = 0;
+
+        if(p1.getName() == p2.getName() && p1.getLevel() != 3){
+            for(pokemons p : inventory){
+                if(p.getName() == p1.getName()){
+                    ctr++;
+                }
+            }
+
+            if(ctr == 2){
+                pokemons t = getEvloved(p1);
+                addPokemon(t);
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
     /* 
     ! testing phase
     public static void main(String[] args){

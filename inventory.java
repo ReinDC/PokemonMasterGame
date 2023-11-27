@@ -61,9 +61,32 @@ public class inventory{
                 inventory.remove(p);
             }
         }
-
     }
 
+    public pokemons getEvolved(pokemons target){
+        // List<pokemons> allList = pokemons.pokeList();
+        // int i = allList.indexOf(target);
+        // pokemons evolved = allList.get(i);
+
+        return target;
+    }
+
+    /* 
+    public void evolvePokemon(pokemons p1, pokemons p2){
+        int i;
+        
+        if(p1.getName() == p2.getName()){
+                
+                addPokemon(evolved);
+
+                removePokemon(p2);
+                removePokemon(p1);
+                // return 1; // Success
+        }
+
+        // return 0;
+    }
+     */
     /* 
     ! testing phase
     public static void main(String[] args){

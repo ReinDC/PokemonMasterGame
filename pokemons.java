@@ -113,16 +113,5 @@ public class pokemons{
 
             return Pokemons;
         }
-
-    public void evolvePokemon(pokemons p1, pokemons p2, inventory inv){
-        List<pokemons> list = pokeList();
-        if(p1.getName() == p2.getName() && p1.getLevel() != 3){
-            inv.removePokemon(p2);
-            inv.removePokemon(p2);
-            int i = list.indexOf(p1) + 1;
-            inv.addPokemon(list.get(i));
-
-        }
-    }
 }
 

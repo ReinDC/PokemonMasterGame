@@ -55,9 +55,8 @@ public class gui extends misc{
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
-                        inv.addPokemon(allPokemonList.get(5));
-                        inv.addPokemon(allPokemonList.get(15));
-                        inv.addPokemon(allPokemonList.get(25));
+                        inv.addPokemon(pokemon);
+
                     }
                 }
                 // JOptionPane.showMessageDialog(null, filepath);
@@ -376,11 +375,16 @@ public class gui extends misc{
             poke2EL.setText("Evolution Level: " + chosen2.getLevel());
         }
 
+        
+
         JButton evolve1Button = new JButton("Choose the pokemon #1");
         JButton evolve2Button = new JButton("Choose the pokemon #2");
+        JButton evolve = new JButton("Evolve");
         JButton backButton = new JButton("Back");
 
-        
+        if(chosen1 != null && chosen2 != null){
+            buttons.add(evolve);
+        }
 
 
         evolve1Button.addActionListener(new ActionListener(){
@@ -405,6 +409,20 @@ public class gui extends misc{
             @Override
             
             public void actionPerformed(ActionEvent e){
+                updateChosen1(null);
+                updateChosen2(null);
+                frame.dispose();
+                mainMenu();
+            }
+        });
+
+        evolve.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                
+                JOptionPane.showMessageDialog(null, "test");
                 frame.dispose();
                 mainMenu();
             }
@@ -430,7 +448,7 @@ public class gui extends misc{
     }
     
     public void choosePokeEvo1(){
-        JFrame frame;        
+        JFrame frame;
         frame = new JFrame("Pokemon Master");
         JPanel panel = new JPanel();
 
@@ -439,7 +457,7 @@ public class gui extends misc{
         frame.setSize(500, 250);
 
         JLabel name = new JLabel("Choose the pokemon:");
-
+        
         ArrayList<String> options = inv.getNames();
         JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
         
@@ -448,6 +466,7 @@ public class gui extends misc{
 
         dropdown.addItemListener(new ItemListener(){
             @Override
+            
             public void itemStateChanged(ItemEvent e){
                 if (e.getStateChange() == ItemEvent.SELECTED){
                     // imageDisplay.setText((String) e.getItem());
@@ -489,11 +508,14 @@ public class gui extends misc{
 
         JLabel name = new JLabel("Choose the pokemon:");
 
+        
+
         ArrayList<String> options = inv.getNames();
         JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
         
         JLabel imageDisplay = new JLabel();
         updateImageLabel(imageDisplay ,(String) dropdown.getSelectedItem());
+        
 
         dropdown.addItemListener(new ItemListener(){
             @Override
@@ -516,7 +538,7 @@ public class gui extends misc{
         submitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                updateChosen2((String) dropdown.getSelectedItem());
+                updateChosen2((String) dropdown.getSelectedItem());                
                 frame.dispose();
                 evolveWindow();
             }
@@ -526,6 +548,8 @@ public class gui extends misc{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+    
+
     public static void main(String[] args){
         gui a = new gui();
         a.chooseStarter();

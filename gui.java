@@ -54,6 +54,7 @@ public class gui extends misc{
                 for(pokemons pokemon : allPokemonList){
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.addPokemon(pokemon);
+                        inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
                     }
                 }

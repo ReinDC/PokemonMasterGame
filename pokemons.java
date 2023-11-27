@@ -91,8 +91,8 @@ public class pokemons{
 
             // Family F
             Pokemons.add(new pokemons("Malts", "Grass", 1, 'F')); // 15
-            Pokemons.add(new pokemons("Krilicake", "Grass", 2, 'F'));
-            Pokemons.add(new pokemons("Velveior", "Grass", 3, 'F'));
+            Pokemons.add(new pokemons("Kirlicake", "Grass", 2, 'F'));
+            Pokemons.add(new pokemons("Velvevoir", "Grass", 3, 'F'));
 
             //* Water types
 

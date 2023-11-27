@@ -45,6 +45,16 @@ public class inventory{
         return size;
     }
 
+    public ArrayList<String> getNames(){
+        ArrayList<String> names = new ArrayList<String>();
+
+        for(pokemons p : inventory){
+            names.add(p.getName());
+        }
+
+        return names;
+    }
+
     /* 
     ! testing phase
     public static void main(String[] args){

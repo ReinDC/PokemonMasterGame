@@ -97,7 +97,7 @@ public class pokemons{
             //* Water types
 
             // Family G
-            Pokemons.add(new pokemons("Squirepie", "Water", 1, 'G')); // 18
+            Pokemons.add(new pokemons("Squirpie", "Water", 1, 'G')); // 18
             Pokemons.add(new pokemons("Tartortle", "Water", 2, 'G'));
             Pokemons.add(new pokemons("Piestoise", "Water", 3, 'G'));
 

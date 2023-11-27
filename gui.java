@@ -50,10 +50,11 @@ public class gui extends misc{
         submitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
+                // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
                 for(pokemons pokemon : allPokemonList){
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.addPokemon(pokemon);
+                        inv.setActivePokemon(pokemon);
                         inv.addPokemon(allPokemonList.get(18));
                         inv.addPokemon(allPokemonList.get(22));
                         inv.addPokemon(allPokemonList.get(3));
@@ -143,19 +144,69 @@ public class gui extends misc{
 
     public void inventoryWindow(){
         List<pokemons> inventory = inv.getInventory(); 
+        List<pokemons> a = new ArrayList<>();
+        int active = 0;
         JFrame frame;
         
         frame = new JFrame("Pokemon Master");
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new GridLayout(inv.getInventorySize() + 1, 5));
         JPanel buttons = new JPanel();
 
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 200);
+        frame.setSize(700, 700);
 
+        JLabel Image = new JLabel("             Image");
+        JLabel Name = new JLabel("     Name");
+        JLabel EL = new JLabel("     EL");
+        JLabel Type = new JLabel("     Type");
+        JLabel Family = new JLabel("     Family");
 
-        JLabel invLabel = new JLabel(getListAsString(inventory));
-        JScrollPane scrollPane = new JScrollPane(invLabel);
+        panel.add(Image);
+        panel.add(Name);
+        panel.add(EL);
+        panel.add(Type);
+        panel.add(Family);
+
+        for(pokemons pokemon : inventory){
+            JLabel pImage = new JLabel();
+            JLabel pName = new JLabel();
+            JLabel pEL = new JLabel();
+            JLabel pType = new JLabel();
+            JLabel pFamily = new JLabel();
+
+            ImageIcon icon = new ImageIcon(getImagePath(pokemon.getName()));
+            pImage.setIcon(icon);
+            pName.setText(pokemon.getName());
+            pEL.setText(Integer.toString(pokemon.getLevel()));
+            pType.setText(pokemon.getType());
+            pFamily.setText("" + pokemon.getFamily());
+
+            if(pokemon == inv.getActivePokemon() && active != 1){
+                pImage.setOpaque(true);
+                pImage.setBackground(Color.YELLOW);
+
+                pName.setOpaque(true);
+                pName.setBackground(Color.YELLOW);
+
+                pEL.setOpaque(true);
+                pEL.setBackground(Color.YELLOW);
+
+                pType.setOpaque(true);
+                pType.setBackground(Color.YELLOW);
+
+                pFamily.setOpaque(true);
+                pFamily.setBackground(Color.YELLOW);
+
+                active = 1;
+            }
+
+            panel.add(pImage);
+            panel.add(pName);
+            panel.add(pEL);
+            panel.add(pType);
+            panel.add(pFamily);
+        }
 
         JButton changeActiveButton = new JButton("Change active pokemon");
         JButton backButton = new JButton("Back");
@@ -169,15 +220,87 @@ public class gui extends misc{
             }
         });
 
-        panel.add(scrollPane);
+        changeActiveButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                changeActiveWindow();
+            }
+        });
+
+        // panel.add(scrollPane);
+        JScrollPane scrollPane = new JScrollPane(panel);
 
         buttons.add(changeActiveButton);
         buttons.add(backButton);
 
-
-        frame.add(panel);
+        frame.add(scrollPane);
         frame.add(buttons, BorderLayout.SOUTH);
 
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public void changeActiveWindow(){
+        JFrame frame;
+        mainGame a = new mainGame();
+        
+        frame = new JFrame("Pokemon Master");
+        JPanel panel = new JPanel();
+
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 250);
+
+        JLabel name = new JLabel("Choose: ");
+
+        ArrayList<String> options = a.loadNameLevel1();
+        JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
+        
+        // ImageIcon icon = new ImageIcon(filepath);
+        JLabel imageDisplay = new JLabel();
+        ImageIcon icon = new ImageIcon("src\\strawander.png");
+        imageDisplay.setIcon(icon);
+        // imageDisplay.setText(chosenStarter);
+        
+
+        dropdown.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    updateImageLabel(imageDisplay ,(String) e.getItem());
+                }
+            }
+        });
+
+        JButton submitButton = new JButton("Choose");
+
+        panel.add(name);      
+        panel.add(dropdown);
+        panel.add(submitButton);
+        panel.add(imageDisplay);
+
+        submitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
+                for(pokemons pokemon : allPokemonList){
+                    if(pokemon.getName() == (String) dropdown.getSelectedItem()){
+                        inv.addPokemon(pokemon);
+                        inv.setActivePokemon(pokemon);
+                        inv.addPokemon(allPokemonList.get(18));
+                        inv.addPokemon(allPokemonList.get(22));
+                        inv.addPokemon(allPokemonList.get(3));
+                    }
+                }
+                // JOptionPane.showMessageDialog(null, filepath);
+                frame.dispose();
+                mainMenu();
+            }
+        });
+
+        frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -271,7 +394,7 @@ public class gui extends misc{
 }
 
 class misc{
-
+    /* 
     public String getListAsString(List<pokemons> a){
         StringBuilder result = new StringBuilder();
         for(pokemons pokemon : a){
@@ -284,6 +407,7 @@ class misc{
         }
         return "<html>" + result.toString() + "</html>"; // Enable HTML rendering for line breaks
     }
+     */
     
     public String getImagePath(String name){
             String imagePath = "src\\" + name + ".png";

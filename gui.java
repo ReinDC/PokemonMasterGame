@@ -140,7 +140,6 @@ public class gui extends misc{
 
     public void inventoryWindow(){
         List<pokemons> inventory = inv.getInventory(); 
-        List<pokemons> a = new ArrayList<>();
         int active = 0;
         JFrame frame;
         
@@ -240,7 +239,6 @@ public class gui extends misc{
 
     public void changeActiveWindow(){
         JFrame frame;
-        mainGame a = new mainGame();
         
         frame = new JFrame("Pokemon Master");
         JPanel panel = new JPanel();
@@ -400,6 +398,59 @@ public class gui extends misc{
 
         frame.add(panel, BorderLayout.CENTER);
         frame.add(buttons, BorderLayout.SOUTH);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+    
+    public void choosePokeEvo(){
+        JFrame frame;
+        
+        frame = new JFrame("Pokemon Master");
+        JPanel panel = new JPanel();
+
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 250);
+
+        JLabel name = new JLabel("Choose the pokemon:");
+
+        ArrayList<String> options = inv.getNames();
+        JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
+        
+        JLabel imageDisplay = new JLabel();
+        
+        dropdown.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    updateImageLabel(imageDisplay ,(String) e.getItem());
+                }
+            }
+        });
+
+        JButton submitButton = new JButton("Choose");
+
+        panel.add(name);      
+        panel.add(dropdown);
+        panel.add(submitButton);
+        panel.add(imageDisplay);
+
+        submitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
+                for(pokemons pokemon : allPokemonList){
+                    if(pokemon.getName() == (String) dropdown.getSelectedItem()){
+                        
+                    }
+                }
+                // JOptionPane.showMessageDialog(null, filepath);
+                frame.dispose();
+                mainMenu();
+            }
+        });
+
+        frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

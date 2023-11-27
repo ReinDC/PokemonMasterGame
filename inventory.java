@@ -55,6 +55,15 @@ public class inventory{
         return names;
     }
 
+    public void removePokemon(pokemons target){
+        for(pokemons p : inventory){
+            if(target.getName() == p.getName()){
+                inventory.remove(p);
+            }
+        }
+
+    }
+
     /* 
     ! testing phase
     public static void main(String[] args){

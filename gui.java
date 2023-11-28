@@ -129,6 +129,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
+                JOptionPane.showMessageDialog(null, "Thanks for playing!");
             }
         });
 
@@ -385,6 +386,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
+                area2Window();
             }
         });
 
@@ -772,6 +774,8 @@ public class gui extends misc{
 
         healthbar.setValue(cEHP);
         healthbar.setString("Current Health: " + cEHP);
+
+        JOptionPane.showMessageDialog(null, "Damage: " + dmg);
     }
 
     public int catchEnemy(){
@@ -809,7 +813,7 @@ public class gui extends misc{
 
         JButton leftButton = new JButton("Left");
         JButton rightButton = new JButton("Right");
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("Exit");
 
         leftButton.addActionListener(new ActionListener(){
             @Override
@@ -867,7 +871,7 @@ public class gui extends misc{
 
     public void area2Window(){
         JFrame frame = new JFrame("Pokemon Master");
-        area1 a1 = new area1();
+        area2 a2 = new area2();
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
@@ -876,7 +880,7 @@ public class gui extends misc{
         List<pokemons> lvl1 = new ArrayList<>();
 
         for(pokemons poke : allPokemonList){
-            if(poke.getLevel() == 1){
+            if(poke.getLevel() == 1 || poke.getLevel() == 2){
                 lvl1.add(poke);
             }
         }
@@ -885,14 +889,48 @@ public class gui extends misc{
 
         JButton leftButton = new JButton("Left");
         JButton rightButton = new JButton("Right");
-        JButton backButton = new JButton("Back");
+        JButton upButton = new JButton("Up");
+        JButton downButton = new JButton("Down");
+        JButton backButton = new JButton("Exit");
+
+        downButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                int i = a2.moveCharacter(0, -1);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+                }
+            }
+        });
+
+        upButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                int i = a2.moveCharacter(0, 1);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+                }
+            }
+        });
 
         leftButton.addActionListener(new ActionListener(){
             @Override
             
             public void actionPerformed(ActionEvent e){
                 
-                int i = a1.moveCharacter(-1, 0);
+                int i = a2.moveCharacter(-1, 0);
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
@@ -907,7 +945,7 @@ public class gui extends misc{
             @Override
             
             public void actionPerformed(ActionEvent e){
-                int i = a1.moveCharacter(1, 0);
+                int i = a2.moveCharacter(1, 0);
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
@@ -930,18 +968,132 @@ public class gui extends misc{
             }
         });
         
+        buttons.add(upButton);        
         buttons.add(leftButton);
         buttons.add(rightButton);
+        buttons.add(downButton);
         buttons.add(backButton);
 
 
-        frame.add(a1);
+        frame.add(a2);
         frame.add(buttons, BorderLayout.SOUTH);
 
         frame.setVisible(true);
     }
 
+    public void area3Window(){
+        JFrame frame = new JFrame("Pokemon Master");
+        area3 a3 = new area3();
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
 
+        List<pokemons> lvl1 = new ArrayList<>();
+
+        for(pokemons poke : allPokemonList){
+            if(poke.getLevel() == 1 || poke.getLevel() == 2){
+                lvl1.add(poke);
+            }
+        }
+
+        JPanel buttons = new JPanel();
+
+        JButton leftButton = new JButton("Left");
+        JButton rightButton = new JButton("Right");
+        JButton upButton = new JButton("Up");
+        JButton downButton = new JButton("Down");
+        JButton backButton = new JButton("Exit");
+
+        downButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                int i = a3.moveCharacter(0, -1);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+                }
+            }
+        });
+
+        upButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                int i = a3.moveCharacter(0, 1);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+                }
+            }
+        });
+
+        leftButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                int i = a3.moveCharacter(-1, 0);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+                }
+            }
+        });
+
+        rightButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                int i = a3.moveCharacter(1, 0);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+
+                }
+            }
+        });
+
+        
+
+        backButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                exploreWindow();
+            }
+        });
+        
+        buttons.add(upButton);        
+        buttons.add(leftButton);
+        buttons.add(rightButton);
+        buttons.add(downButton);
+        buttons.add(backButton);
+
+
+        frame.add(a3);
+        frame.add(buttons, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
+    }
+
+    
     public static void main(String[] args){
         gui a = new gui();
         a.chooseStarter();
@@ -1022,7 +1174,6 @@ class map extends JPanel{
     private int mapSize;
     private int pPosX;
     private int pPosY;
-    private gui g = new gui();
 
     public map(int size){
         this.mapSize = size;
@@ -1030,21 +1181,18 @@ class map extends JPanel{
         this.pPosY = 0;
     }
 
-    public void moveCharacter(int dx, int dy){
+    public int moveCharacter(int dx, int dy){
         int newCharacterX = pPosX + dx;
         int newCharacterY = pPosY + dy;
-        int battle;
 
         if(newCharacterX >= 0 && newCharacterX < mapSize && newCharacterY >= 0 && newCharacterY < mapSize){
             pPosX = newCharacterX;
             pPosY = newCharacterY;
-            battle = new Random().nextInt(1, 100);
             repaint();
-            
-            if(battle < 40){
-                // g.battleWindow();
-            }
+            return 1;            
         }
+
+        return 0;
     }
 
     @Override
@@ -1058,12 +1206,12 @@ class map extends JPanel{
         g.setColor(Color.BLACK);
         for(int i = 0; i < mapSize; i++) {
             for(int j = 0; j < mapSize; j++){
-                g.drawString("*", xOffset + j * cellSize, yOffset + i * cellSize);
+                g.drawString("⬛", xOffset + j * cellSize, yOffset + i * cellSize);
             }
         }
 
         g.setColor(Color.RED);
-        g.drawString("C", xOffset + pPosX * cellSize, yOffset + pPosY * cellSize);
+        g.drawString("⬛", xOffset + pPosX * cellSize, yOffset + pPosY * cellSize);
     }
 }
 

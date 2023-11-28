@@ -54,7 +54,6 @@ public class gui extends misc{
                 for(pokemons pokemon : allPokemonList){
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
                         inv.addPokemon(pokemon);
-                        inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
                     }
                 }
@@ -311,7 +310,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
-                // Area1Window();
+                battleWindow();
             }
         });
 
@@ -553,15 +552,34 @@ public class gui extends misc{
         frame.setVisible(true);
     }
     
-    public void showCustomPanel() {
+    public void battleWindow() {
         JFrame frame = new JFrame("Pokemon Master");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
 
-        JPanel customPanel = new JPanel();
-        JLabel test = new JLabel("test");
-        customPanel.add(test);
+        JPanel playerActions = new JPanel();
 
-        frame.add(customPanel);
+        JLabel activePokeImage = new JLabel();
+        activePokeImage.setIcon(new ImageIcon(getImagePath(inv.getActivePokemon().getName())));
+
+        JLabel activePokeName = new JLabel("Name: " + inv.getActivePokemon().getName());
+        JLabel activePokeLevel = new JLabel("Level: " + inv.getActivePokemon().getLevel());
+
+        JButton atkBtn = new JButton("Attack");
+        JButton swapBtn = new JButton("Swap");
+        JButton catchBtn = new JButton("Catch");
+        JButton runBtn = new JButton("Run");
+
+        playerActions.add(activePokeImage);
+        playerActions.add(activePokeName);
+        playerActions.add(activePokeLevel);
+        playerActions.add(atkBtn);
+        playerActions.add(swapBtn);
+        playerActions.add(catchBtn);
+        playerActions.add(runBtn);
+        // panel.add();
+
+        frame.add(playerActions, BorderLayout.SOUTH);
         frame.setSize(700, 700);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

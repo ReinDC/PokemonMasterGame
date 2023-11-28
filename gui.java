@@ -553,6 +553,19 @@ public class gui extends misc{
         frame.setVisible(true);
     }
     
+    public void showCustomPanel() {
+        JFrame frame = new JFrame("Pokemon Master");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel customPanel = new JPanel();
+        JLabel test = new JLabel("test");
+        customPanel.add(test);
+
+        frame.add(customPanel);
+        frame.setSize(700, 700);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 
     public static void main(String[] args){
         gui a = new gui();

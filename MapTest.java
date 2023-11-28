@@ -3,31 +3,31 @@ import java.awt.*;
 import java.util.*;
 
 class MapPanel extends JPanel{
-    protected int GRID_SIZE;
-    protected int characterX;
-    protected int characterY;
+    private int GRID_SIZE;
+    private int characterX;
+    private int characterY;
     private gui g = new gui();
     
 
-    public MapPanel(int gridSize) {
+    public MapPanel(int gridSize){
         this.GRID_SIZE = gridSize;
         this.characterX = 0;
         this.characterY = 0;
     }
 
-    protected void moveCharacter(int dx, int dy) {
+    public void moveCharacter(int dx, int dy){
         int newCharacterX = characterX + dx;
         int newCharacterY = characterY + dy;
         int battle;
 
         // Check boundaries
-        if (newCharacterX >= 0 && newCharacterX < GRID_SIZE && newCharacterY >= 0 && newCharacterY < GRID_SIZE) {
+        if(newCharacterX >= 0 && newCharacterX < GRID_SIZE && newCharacterY >= 0 && newCharacterY < GRID_SIZE){
             characterX = newCharacterX;
             characterY = newCharacterY;
             battle = new Random().nextInt(1, 100);
             repaint();
             
-            if (battle < 40) {
+            if(battle < 40){
                 g.showCustomPanel();
             }
         }
@@ -41,15 +41,13 @@ class MapPanel extends JPanel{
         int xOffset = (getWidth() - GRID_SIZE * cellSize) / 2;
         int yOffset = (getHeight() - GRID_SIZE * cellSize) / 2;
 
-        // Draw the grid with '*'
         g.setColor(Color.BLACK);
-        for (int i = 0; i < GRID_SIZE; i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
+        for(int i = 0; i < GRID_SIZE; i++) {
+            for(int j = 0; j < GRID_SIZE; j++){
                 g.drawString("0", xOffset + j * cellSize, yOffset + i * cellSize);
             }
         }
 
-        // Draw the character inside the grid as a full circle
         g.setColor(Color.RED);
         g.drawString("C", xOffset + characterX * cellSize, yOffset + characterY * cellSize);
     }

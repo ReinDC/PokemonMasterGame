@@ -88,9 +88,12 @@ public class inventory{
                 }
             }
 
-            if(ctr == 2){
+            if(ctr > 1){
                 pokemons t = getEvloved(p1);
+                removePokemon(p1);
+                removePokemon(p2);
                 addPokemon(t);
+                setActivePokemon(t);
 
                 return 1;
             }

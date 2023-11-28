@@ -7,6 +7,8 @@ import java.util.List;
 public class gui extends misc{
     public inventory inv = new inventory();
     private List<pokemons> allPokemonList = pokemons.pokeList();
+    private int cEHP = 50, ctr = 0;
+    private pokemons ene;
    
     public void chooseStarter(){
         JFrame frame;
@@ -53,6 +55,11 @@ public class gui extends misc{
                 // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
                 for(pokemons pokemon : allPokemonList){
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
+                        inv.addPokemon(pokemon);
+                        inv.addPokemon(pokemon);
+                        inv.addPokemon(pokemon);
+                        inv.addPokemon(pokemon);
+                        inv.addPokemon(pokemon);
                         inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
                     }
@@ -200,6 +207,7 @@ public class gui extends misc{
             panel.add(pFamily);
         }
 
+        
         JButton changeActiveButton = new JButton("Change active pokemon");
         JButton backButton = new JButton("Back");
 
@@ -224,7 +232,10 @@ public class gui extends misc{
         // panel.add(scrollPane);
         JScrollPane scrollPane = new JScrollPane(panel);
 
-        buttons.add(changeActiveButton);
+        if(inv.inventory.size() >= 2){
+            buttons.add(changeActiveButton);
+        }
+        
         buttons.add(backButton);
 
         frame.add(scrollPane);
@@ -250,6 +261,7 @@ public class gui extends misc{
         JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
         
         JLabel imageDisplay = new JLabel();
+        updateImageLabel(imageDisplay ,(String) dropdown.getSelectedItem());
         
 
         dropdown.addItemListener(new ItemListener() {
@@ -280,6 +292,62 @@ public class gui extends misc{
                 // JOptionPane.showMessageDialog(null, filepath);
                 frame.dispose();
                 inventoryWindow();
+            }
+        });
+
+        frame.add(panel);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public void changeActiveWindow2(){
+        ctr++;
+        JFrame frame;
+        
+        frame = new JFrame("Pokemon Master");
+        JPanel panel = new JPanel();
+
+        frame.setLayout(new FlowLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 250);
+
+        JLabel name = new JLabel("Choose: ");
+
+        ArrayList<String> options = inv.getNames();
+        JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
+        
+        JLabel imageDisplay = new JLabel();
+        updateImageLabel(imageDisplay ,(String) dropdown.getSelectedItem());
+        
+
+        dropdown.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    updateImageLabel(imageDisplay ,(String) e.getItem());
+                }
+            }
+        });
+
+        JButton submitButton = new JButton("Choose");
+
+        panel.add(name);      
+        panel.add(dropdown);
+        panel.add(submitButton);
+        panel.add(imageDisplay);
+
+        submitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
+                for(pokemons pokemon : inv.inventory){
+                    if(pokemon.getName() == (String) dropdown.getSelectedItem()){
+                        inv.setActivePokemon(pokemon);
+                    }
+                }
+                // JOptionPane.showMessageDialog(null, filepath);
+                frame.dispose();
+                battleWindow(ene);
             }
         });
 
@@ -326,7 +394,6 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
-                area1Window();
             }
         });
 
@@ -420,8 +487,6 @@ public class gui extends misc{
             @Override
             
             public void actionPerformed(ActionEvent e){
-                updateChosen1(null);
-                updateChosen2(null);
                 frame.dispose();
                 mainMenu();
             }
@@ -435,16 +500,15 @@ public class gui extends misc{
                 
                 if(i == 1){
                     JOptionPane.showMessageDialog(null, "Evolution Success!");
-                    inv.removePokemon(chosen1);
-                    inv.removePokemon(chosen2);
+                    chosen1 = null;
+                    chosen2 = null;
+                    frame.dispose();
+                    mainMenu();
                 }
 
                 else{
                     JOptionPane.showMessageDialog(null, "Evolution Failed!");
                 }
-                
-                frame.dispose();
-                mainMenu();
             }
         });
 
@@ -573,10 +637,14 @@ public class gui extends misc{
         JFrame frame = new JFrame("Pokemon Master");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());       
-        int eHP = 50;
+        int dmg = inv.getActivePokemon().getLevel();
 
         JPanel playerPanel = new JPanel();
         JPanel enemyPanel = new JPanel();
+
+        JProgressBar healthBar = new JProgressBar(0, 50);
+        healthBar.setValue(cEHP);
+        healthBar.setStringPainted(true);
 
         JLabel enemyImage = new JLabel();
         enemyImage.setIcon(new ImageIcon(getImagePath(enemy.getName())));
@@ -597,8 +665,68 @@ public class gui extends misc{
         JButton catchBtn = new JButton("Catch");
         JButton runBtn = new JButton("Run");
 
-        runBtn.addActionListener(new ActionListener(){
+        
+
+        atkBtn.addActionListener(new ActionListener(){
             @Override
+            public void actionPerformed(ActionEvent e){
+                atkEnemy(dmg, healthBar);
+                if(cEHP == 0 || (cEHP == 0 && ctr == 3)){
+                    JOptionPane.showMessageDialog(null, "You defeated the enemy!");
+                    frame.dispose();
+                    cEHP = 50;
+                    ctr = 0;
+                }
+
+                else if(ctr == 3){
+                    JOptionPane.showMessageDialog(null, "The enemy ran away!");
+                    frame.dispose();
+                    ctr = 0;
+                }
+            }
+        });
+
+        swapBtn.addActionListener(new ActionListener(){
+            @Override 
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                if(ctr != 3){
+                    changeActiveWindow2();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "The enemy ran away!");
+                    frame.dispose();
+                    ctr = 0;
+                }
+                
+            }
+        });
+
+        catchBtn.addActionListener(new ActionListener(){
+            @Override 
+            
+            public void actionPerformed(ActionEvent e){
+                if(ctr != 3){
+                    int i = catchEnemy();
+
+                    if(i == 1){ // Successful catch
+                        frame.dispose();
+                        ctr = 0;
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "The enemy ran away!");
+                    frame.dispose();
+                    ctr = 0;
+                }
+                
+            }
+        });
+        
+
+        runBtn.addActionListener(new ActionListener(){
+            @Override 
             
             public void actionPerformed(ActionEvent e){
                 JOptionPane.showMessageDialog(null, "Ran away successfully!");
@@ -606,18 +734,23 @@ public class gui extends misc{
             }
         });
 
+        
 
+        enemyPanel.add(healthBar);
         enemyPanel.add(enemyImage);
         enemyPanel.add(enemyName);
         enemyPanel.add(enemyLevel);
         enemyPanel.add(enemyType);
 
         playerPanel.add(activePokeImage);
+        
         playerPanel.add(activePokeName);
         playerPanel.add(activePokeLevel);
         playerPanel.add(activePokeType);
         playerPanel.add(atkBtn);
-        playerPanel.add(swapBtn);
+        if(inv.inventory.size() >= 2){
+            playerPanel.add(swapBtn);
+        }
         playerPanel.add(catchBtn);
         playerPanel.add(runBtn);
 
@@ -626,6 +759,34 @@ public class gui extends misc{
         frame.setSize(700, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void atkEnemy(int pokeLevel, JProgressBar healthbar){
+        ctr++;
+        int dmg = pokeLevel * new Random().nextInt(1,10);
+        cEHP -= dmg;
+
+        if (cEHP < 0) {
+            cEHP = 0;
+        }
+
+        healthbar.setValue(cEHP);
+        healthbar.setString("Current Health: " + cEHP);
+    }
+
+    public int catchEnemy(){
+        int rate = new Random().nextInt(1, 100), catchRate = 90;
+        catchRate -= cEHP;
+        if(rate < catchRate){
+            inv.addPokemon(ene);
+            JOptionPane.showMessageDialog(null, "Successfully catched the enemy!");
+            return 1;
+        }
+
+
+        JOptionPane.showMessageDialog(null, "Failed!");
+        ctr++;
+        return 0;
     }
 
     public void area1Window(){
@@ -644,10 +805,6 @@ public class gui extends misc{
             }
         }
 
-        
-        
-
-
         JPanel buttons = new JPanel();
 
         JButton leftButton = new JButton("Left");
@@ -663,7 +820,8 @@ public class gui extends misc{
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
-                        battleWindow(lvl1.get(a));
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
                     }
                 }
             }
@@ -677,7 +835,8 @@ public class gui extends misc{
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
-                        battleWindow(lvl1.get(a));
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
                     }
 
                 }
@@ -705,6 +864,84 @@ public class gui extends misc{
 
         frame.setVisible(true);
     }
+
+    public void area2Window(){
+        JFrame frame = new JFrame("Pokemon Master");
+        area1 a1 = new area1();
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
+
+        List<pokemons> lvl1 = new ArrayList<>();
+
+        for(pokemons poke : allPokemonList){
+            if(poke.getLevel() == 1){
+                lvl1.add(poke);
+            }
+        }
+
+        JPanel buttons = new JPanel();
+
+        JButton leftButton = new JButton("Left");
+        JButton rightButton = new JButton("Right");
+        JButton backButton = new JButton("Back");
+
+        leftButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                int i = a1.moveCharacter(-1, 0);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+                }
+            }
+        });
+
+        rightButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                int i = a1.moveCharacter(1, 0);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        ene = lvl1.get(a);
+                        battleWindow(ene);
+                    }
+
+                }
+            }
+        });
+
+        
+
+        backButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                exploreWindow();
+            }
+        });
+        
+        buttons.add(leftButton);
+        buttons.add(rightButton);
+        buttons.add(backButton);
+
+
+        frame.add(a1);
+        frame.add(buttons, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
+    }
+
+
     public static void main(String[] args){
         gui a = new gui();
         a.chooseStarter();
@@ -770,6 +1007,14 @@ class misc{
 
     public void getChosen2(pokemons dest, pokemons chosen2){
         dest = chosen2;
+    }
+
+    public int generateRandom(){
+        return new Random().nextInt(100);
+    }
+
+    public void attack(int dmg, int eHP){
+        
     }
 }
 

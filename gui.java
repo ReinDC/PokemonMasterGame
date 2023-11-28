@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.List;
 
 public class gui extends misc{
-    private inventory inv = new inventory();
+    public inventory inv = new inventory();
     private List<pokemons> allPokemonList = pokemons.pokeList();
    
     public void chooseStarter(){
@@ -298,8 +298,6 @@ public class gui extends misc{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 200);
 
-        
-
         JButton Area1Button = new JButton("Area 1");
         JButton Area2Button = new JButton("Area 2");
         JButton Area3Button = new JButton("Area 3");
@@ -310,9 +308,28 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
-                battleWindow();
+                area1Window();
             }
         });
+
+        Area2Button.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+            }
+        });
+
+
+        Area3Button.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                area1Window();
+            }
+        });
+
 
         backButton.addActionListener(new ActionListener(){
             @Override
@@ -552,39 +569,142 @@ public class gui extends misc{
         frame.setVisible(true);
     }
     
-    public void battleWindow() {
+    public void battleWindow(pokemons enemy){
         JFrame frame = new JFrame("Pokemon Master");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(new BorderLayout());       
+        int eHP = 50;
 
-        JPanel playerActions = new JPanel();
+        JPanel playerPanel = new JPanel();
+        JPanel enemyPanel = new JPanel();
+
+        JLabel enemyImage = new JLabel();
+        enemyImage.setIcon(new ImageIcon(getImagePath(enemy.getName())));
+
+        JLabel enemyName = new JLabel("Enemy: " + enemy.getName());
+        JLabel enemyLevel = new JLabel("Level: " + enemy.getLevel());
+        JLabel enemyType = new JLabel("Type: " + enemy.getType());
 
         JLabel activePokeImage = new JLabel();
         activePokeImage.setIcon(new ImageIcon(getImagePath(inv.getActivePokemon().getName())));
 
         JLabel activePokeName = new JLabel("Name: " + inv.getActivePokemon().getName());
         JLabel activePokeLevel = new JLabel("Level: " + inv.getActivePokemon().getLevel());
+        JLabel activePokeType = new JLabel("Type: " + inv.getActivePokemon().getType());
 
         JButton atkBtn = new JButton("Attack");
         JButton swapBtn = new JButton("Swap");
         JButton catchBtn = new JButton("Catch");
         JButton runBtn = new JButton("Run");
 
-        playerActions.add(activePokeImage);
-        playerActions.add(activePokeName);
-        playerActions.add(activePokeLevel);
-        playerActions.add(atkBtn);
-        playerActions.add(swapBtn);
-        playerActions.add(catchBtn);
-        playerActions.add(runBtn);
-        // panel.add();
+        runBtn.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                JOptionPane.showMessageDialog(null, "Ran away successfully!");
+                frame.dispose();
+            }
+        });
 
-        frame.add(playerActions, BorderLayout.SOUTH);
-        frame.setSize(700, 700);
+
+        enemyPanel.add(enemyImage);
+        enemyPanel.add(enemyName);
+        enemyPanel.add(enemyLevel);
+        enemyPanel.add(enemyType);
+
+        playerPanel.add(activePokeImage);
+        playerPanel.add(activePokeName);
+        playerPanel.add(activePokeLevel);
+        playerPanel.add(activePokeType);
+        playerPanel.add(atkBtn);
+        playerPanel.add(swapBtn);
+        playerPanel.add(catchBtn);
+        playerPanel.add(runBtn);
+
+        frame.add(enemyPanel, BorderLayout.CENTER);
+        frame.add(playerPanel, BorderLayout.SOUTH);
+        frame.setSize(700, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
+    public void area1Window(){
+        JFrame frame = new JFrame("Pokemon Master");
+        area1 a1 = new area1();
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
+
+        List<pokemons> lvl1 = new ArrayList<>();
+
+        for(pokemons poke : allPokemonList){
+            if(poke.getLevel() == 1){
+                lvl1.add(poke);
+            }
+        }
+
+        
+        
+
+
+        JPanel buttons = new JPanel();
+
+        JButton leftButton = new JButton("Left");
+        JButton rightButton = new JButton("Right");
+        JButton backButton = new JButton("Back");
+
+        leftButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                
+                int i = a1.moveCharacter(-1, 0);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        battleWindow(lvl1.get(a));
+                    }
+                }
+            }
+        });
+
+        rightButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                int i = a1.moveCharacter(1, 0);
+                if(i == 1){
+                    if(new Random().nextInt(1, 100) < 40){
+                        int a = new Random().nextInt(0, lvl1.size());
+                        battleWindow(lvl1.get(a));
+                    }
+
+                }
+            }
+        });
+
+        
+
+        backButton.addActionListener(new ActionListener(){
+            @Override
+            
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                exploreWindow();
+            }
+        });
+        
+        buttons.add(leftButton);
+        buttons.add(rightButton);
+        buttons.add(backButton);
+
+
+        frame.add(a1);
+        frame.add(buttons, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
+    }
     public static void main(String[] args){
         gui a = new gui();
         a.chooseStarter();
@@ -652,3 +772,111 @@ class misc{
         dest = chosen2;
     }
 }
+
+class map extends JPanel{
+    private int mapSize;
+    private int pPosX;
+    private int pPosY;
+    private gui g = new gui();
+
+    public map(int size){
+        this.mapSize = size;
+        this.pPosX = 0;
+        this.pPosY = 0;
+    }
+
+    public void moveCharacter(int dx, int dy){
+        int newCharacterX = pPosX + dx;
+        int newCharacterY = pPosY + dy;
+        int battle;
+
+        if(newCharacterX >= 0 && newCharacterX < mapSize && newCharacterY >= 0 && newCharacterY < mapSize){
+            pPosX = newCharacterX;
+            pPosY = newCharacterY;
+            battle = new Random().nextInt(1, 100);
+            repaint();
+            
+            if(battle < 40){
+                // g.battleWindow();
+            }
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        int cellSize = 20; // Adjust the cell size as needed
+        int xOffset = (getWidth() - mapSize * cellSize) / 2;
+        int yOffset = (getHeight() - mapSize * cellSize) / 2;
+
+        g.setColor(Color.BLACK);
+        for(int i = 0; i < mapSize; i++) {
+            for(int j = 0; j < mapSize; j++){
+                g.drawString("*", xOffset + j * cellSize, yOffset + i * cellSize);
+            }
+        }
+
+        g.setColor(Color.RED);
+        g.drawString("C", xOffset + pPosX * cellSize, yOffset + pPosY * cellSize);
+    }
+}
+
+class area1Map extends JPanel{
+    private int mapSize;
+    private int pPosX;
+    private int pPosY;
+
+    public area1Map(int size){
+        this.mapSize = size;
+        this.pPosX = 0;
+        this.pPosY = 0;
+    }
+
+    public int moveCharacter(int dx, int dy){
+        int newCharacterX = pPosX + dx;
+
+        if(newCharacterX >= 0 && newCharacterX < mapSize){
+            pPosX = newCharacterX;
+            repaint();
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+        int cellSize = 20; // Adjust the cell size as needed
+        int xOffset = (getWidth() - mapSize * cellSize) / 2;
+        int yOffset = (getHeight() - mapSize * cellSize) / 2;
+
+        g.setColor(Color.BLACK);
+        for(int i = 0; i < mapSize; i++) {
+            g.drawString("⬛", xOffset + i * cellSize, yOffset);
+        }
+
+        g.setColor(Color.RED);
+        g.drawString("⬛", xOffset + pPosX * cellSize, yOffset + pPosY * cellSize);
+    }
+}
+
+class area1 extends area1Map{
+    public area1(){
+        super(5);
+    }
+}
+
+class area2 extends map{
+    public area2(){
+        super(3); // 3x3
+    }
+}
+
+class area3 extends map{
+    public area3(){
+        super(4); // 4x4
+    }
+}
+

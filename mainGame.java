@@ -216,7 +216,7 @@ public class mainGame{
             }
         }
 
-        Collections.shuffle(lvl1); // Randomly shuffle the list
+        Collections.shuffle(lvl1); 
 
         while(exit != 1){
             if(move != 3 && battle > 40){

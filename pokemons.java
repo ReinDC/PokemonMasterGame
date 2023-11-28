@@ -113,5 +113,19 @@ public class pokemons{
 
             return Pokemons;
         }
+
+    public static ArrayList<String> loadNameLevel1(){
+        List<pokemons> list = pokeList();
+        ArrayList<String> names = new ArrayList<>();
+        
+        for (pokemons pokemon : list){
+            if(pokemon.getLevel() == 1){
+                String name = pokemon.getName();
+                names.add(name);
+            }
+    
+        }
+        return names;
+    }
 }
 

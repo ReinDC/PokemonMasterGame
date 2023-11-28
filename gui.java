@@ -10,9 +10,8 @@ public class gui extends misc{
     private int cEHP = 50, ctr = 0;
     private pokemons ene;
    
-    public void chooseStarter(){
+    public gui(){
         JFrame frame;
-        mainGame a = new mainGame();
         
         frame = new JFrame("Pokemon Master");
         JPanel panel = new JPanel();
@@ -23,7 +22,7 @@ public class gui extends misc{
 
         JLabel name = new JLabel("Choose a starter:");
 
-        ArrayList<String> options = a.loadNameLevel1();
+        ArrayList<String> options = pokemons.loadNameLevel1();
         JComboBox<String> dropdown = new JComboBox<>(options.toArray(new String[0]));
         
         // ImageIcon icon = new ImageIcon(filepath);
@@ -55,11 +54,6 @@ public class gui extends misc{
                 // JOptionPane.showMessageDialog(null, (String) dropdown.getSelectedItem());
                 for(pokemons pokemon : allPokemonList){
                     if(pokemon.getName() == (String) dropdown.getSelectedItem()){
-                        inv.addPokemon(pokemon);
-                        inv.addPokemon(pokemon);
-                        inv.addPokemon(pokemon);
-                        inv.addPokemon(pokemon);
-                        inv.addPokemon(pokemon);
                         inv.addPokemon(pokemon);
                         inv.setActivePokemon(pokemon);
                     }
@@ -396,6 +390,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
+                area3Window();
             }
         });
 
@@ -898,7 +893,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 
-                int i = a2.moveCharacter(0, -1);
+                int i = a2.moveCharacter(0, 1);
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
@@ -914,7 +909,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 
-                int i = a2.moveCharacter(0, 1);
+                int i = a2.moveCharacter(0, -1);
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
@@ -992,9 +987,7 @@ public class gui extends misc{
         List<pokemons> lvl1 = new ArrayList<>();
 
         for(pokemons poke : allPokemonList){
-            if(poke.getLevel() == 1 || poke.getLevel() == 2){
-                lvl1.add(poke);
-            }
+            lvl1.add(poke);
         }
 
         JPanel buttons = new JPanel();
@@ -1010,7 +1003,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 
-                int i = a3.moveCharacter(0, -1);
+                int i = a3.moveCharacter(0, 1);
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
@@ -1026,7 +1019,7 @@ public class gui extends misc{
             
             public void actionPerformed(ActionEvent e){
                 
-                int i = a3.moveCharacter(0, 1);
+                int i = a3.moveCharacter(0, -1);
                 if(i == 1){
                     if(new Random().nextInt(1, 100) < 40){
                         int a = new Random().nextInt(0, lvl1.size());
@@ -1092,12 +1085,6 @@ public class gui extends misc{
 
         frame.setVisible(true);
     }
-
-    
-    public static void main(String[] args){
-        gui a = new gui();
-        a.chooseStarter();
-    }    
 }
 
 class misc{

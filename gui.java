@@ -678,6 +678,7 @@ public class gui extends misc{
                 else if(ctr == 3){
                     JOptionPane.showMessageDialog(null, "The enemy ran away!");
                     frame.dispose();
+                    cEHP = 50;
                     ctr = 0;
                 }
             }

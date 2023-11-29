@@ -9,7 +9,11 @@ public class gui extends misc{
     private List<pokemons> allPokemonList = pokemons.pokeList();
     private int cEHP = 50, ctr = 0;
     private pokemons ene;
-   
+    
+    /**
+    * The first panel of the game. It is where the player chooses their starter
+    * pokemon
+    */
     public gui(){
         JFrame frame;
         
@@ -69,6 +73,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * The main menu, where the user can choose whether to look inside their inventory,
+    * explore an area or evolve a pokemon. The user also can choose to exit the game here.
+    */
     public void mainMenu(){
         JFrame frame;
         
@@ -137,6 +145,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * The inventory, where the user can see their availble pokemons and their information
+    * and choose to change their active pokemon if they want.
+    */
     public void inventoryWindow(){
         List<pokemons> inventory = inv.getInventory(); 
         int active = 0;
@@ -240,6 +252,11 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * This window displays a dropdown which contains all of the users pokemon and they can choose
+    * to select 1 to be their active pokemon
+    * Part of the invetory feature.
+    */
     public void changeActiveWindow(){
         JFrame frame;
         
@@ -295,6 +312,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * Same as before but this is called when the user is currently exploring areas
+    * Part of the area exploration feature.
+    */
     public void changeActiveWindow2(){
         ctr++;
         JFrame frame;
@@ -351,6 +372,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * The eploration window, has the list of all available windows
+    * Part of the area exploration feature.
+    */
     public void exploreWindow(){
         JFrame frame;
         
@@ -416,6 +441,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * The evolution window, has the button to choose what pokemon they want to evolve
+    * Part of the evolution feature.
+    */
     public void evolveWindow(){
         JFrame frame;
         frame = new JFrame("Pokemon Master");
@@ -528,6 +557,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
     
+    /**
+    * Has all of the pokemons listed in a dropdown list
+    * Part of the evolution feature.
+    */
     public void choosePokeEvo1(){
         JFrame frame;
         frame = new JFrame("Pokemon Master");
@@ -578,6 +611,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * Has all of the pokemons listed in a dropdown list
+    * Part of the evolution feature.
+    */
     public void choosePokeEvo2(){
         JFrame frame;        
         frame = new JFrame("Pokemon Master");
@@ -630,11 +667,15 @@ public class gui extends misc{
         frame.setVisible(true);
     }
     
+    /**
+    * It is called upon when the 40% chance to have a battle is hit. It contains all of the
+    * information of the current enemy and the current active pokemon of the user.
+    * Part of the battle phase feature.
+    */
     public void battleWindow(pokemons enemy){
         JFrame frame = new JFrame("Pokemon Master");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());       
-        int dmg = inv.getActivePokemon().getLevel();
 
         JPanel playerPanel = new JPanel();
         JPanel enemyPanel = new JPanel();
@@ -667,7 +708,7 @@ public class gui extends misc{
         atkBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                atkEnemy(dmg, healthBar);
+                atkEnemy(inv.getActivePokemon(), healthBar);
                 if(cEHP == 0 || (cEHP == 0 && ctr == 3)){
                     JOptionPane.showMessageDialog(null, "You defeated the enemy!");
                     frame.dispose();
@@ -759,9 +800,18 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
-    public void atkEnemy(int pokeLevel, JProgressBar healthbar){
+    /**
+    * Deducts the health of the enemy based on the calculations provided for the attack
+    * Part of the battle phasefeature.
+    */
+    public void atkEnemy(pokemons active, JProgressBar healthbar){
         ctr++;
-        int dmg = pokeLevel * new Random().nextInt(1,10);
+        int dmg = active.getLevel() * new Random().nextInt(1,10), ad = 0;
+        
+        if((active.getType() == "Fire" && ene.getType() == "Grass") || (active.getType() == "Water" && ene.getType() == "Fire") || (active.getType() == "Grass" && ene.getType() == "Water")){
+                dmg *= 1.5;
+                ad = 1;
+        }
         cEHP -= dmg;
 
         if (cEHP < 0) {
@@ -770,10 +820,19 @@ public class gui extends misc{
 
         healthbar.setValue(cEHP);
         healthbar.setString("Current Health: " + cEHP);
-
-        JOptionPane.showMessageDialog(null, "Damage: " + dmg);
+        if(ad == 1){
+            JOptionPane.showMessageDialog(null, "(1.5x) Super effective damage: " + dmg);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Damage: " + dmg);
+        }
+        
     }
 
+    /**
+    * Catches (puts into inventory) the enemy based on the calculations provided for the attack
+    * Part of the battle phase feature.
+    */
     public int catchEnemy(){
         int rate = new Random().nextInt(1, 100), catchRate = 90;
         catchRate -= cEHP;
@@ -789,6 +848,10 @@ public class gui extends misc{
         return 0;
     }
 
+    /**
+    * The window of the 5x1 area also known as Area 1
+    * Part of the area exploration feature.
+    */
     public void area1Window(){
         JFrame frame = new JFrame("Pokemon Master");
         area1 a1 = new area1();
@@ -865,6 +928,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * The window of the 3x3 area also known as Area 2
+    * Part of the area exploration feature.
+    */
     public void area2Window(){
         JFrame frame = new JFrame("Pokemon Master");
         area2 a2 = new area2();
@@ -977,6 +1044,10 @@ public class gui extends misc{
         frame.setVisible(true);
     }
 
+    /**
+    * The window of the 4x4 area also known as Area 3
+    * Part of the area exploration feature.
+    */
     public void area3Window(){
         JFrame frame = new JFrame("Pokemon Master");
         area3 a3 = new area3();
@@ -1106,17 +1177,31 @@ class misc{
     }
      */
     
+    /**
+    * Converts the name of the pokemon into a filepath to get their image
+    * @param name - The string containing name of the pokemon
+    * @return imagePath - The string containing filpath of the pokemons' image file
+    */
     public String getImagePath(String name){
             String imagePath = "src\\" + name + ".png";
             return imagePath;
     }
 
+    /**
+    * Converts the name of the pokemon into a filepath to get their image
+    * @param imageLabel - The JLabel to update the icon
+    * @param selectedItem - The string containing name of the pokemon the is currently selected
+    */
     public void updateImageLabel(JLabel imageLabel, String selectedItem){
         String path = getImagePath(selectedItem);
         ImageIcon icon = new ImageIcon(path);
         imageLabel.setIcon(icon);
     }
-
+    
+    /**
+    * Converts the name of the pokemon into a filepath to get their image
+    * @param source - The string of the pokemon name that will be converted into a pokemon datatype
+    */
     public void updateChosen1(String source){
         pokemons temp = null;
 
@@ -1129,6 +1214,10 @@ class misc{
         chosen1 = temp;
     }
 
+    /**
+    * Converts the name of the pokemon into a filepath to get their image
+    * @param source - The string of the pokemon name that will be converted into a pokemon datatype
+    */
     public void updateChosen2(String source){
         pokemons temp = null;
 
@@ -1141,34 +1230,29 @@ class misc{
         chosen2 = temp;
     }
 
-    public void getChosen1(pokemons dest, pokemons chosen1){
-        dest = chosen1;
-    }
-
-    public void getChosen2(pokemons dest, pokemons chosen2){
-        dest = chosen2;
-    }
-
-    public int generateRandom(){
-        return new Random().nextInt(100);
-    }
-
-    public void attack(int dmg, int eHP){
-        
-    }
 }
+
 
 class map extends JPanel{
     private int mapSize;
     private int pPosX;
     private int pPosY;
 
+    /**
+    * A contructor for the superclass to display areas 2 and 3
+    * @param size - The size of the grid area
+    */
     public map(int size){
         this.mapSize = size;
         this.pPosX = 0;
         this.pPosY = 0;
     }
 
+    /**
+    * A method to make the character move inside the area
+    * @param dx - The number that will be added to make the user left or right
+    * @param dy - The number that will be added to make the user up or down
+    */
     public int moveCharacter(int dx, int dy){
         int newCharacterX = pPosX + dx;
         int newCharacterY = pPosY + dy;
@@ -1183,6 +1267,10 @@ class map extends JPanel{
         return 0;
     }
 
+    /**
+    * A method display the area
+    * @param g - The display object that has the capability to display the map and the character
+    */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -1208,12 +1296,21 @@ class area1Map extends JPanel{
     private int pPosX;
     private int pPosY;
 
+    /**
+    * A contructor for the superclass to display areas 2 and 3
+    * @param size - The size of the line
+    */
     public area1Map(int size){
         this.mapSize = size;
         this.pPosX = 0;
         this.pPosY = 0;
     }
 
+    /**
+    * A method to make the character move inside the area
+    * @param dx - The number that will be added to make the user left or right
+    * @param dy - The number that will be added to make the user up or down
+    */
     public int moveCharacter(int dx, int dy){
         int newCharacterX = pPosX + dx;
 
@@ -1225,6 +1322,11 @@ class area1Map extends JPanel{
         return 0;
     }
 
+
+    /**
+    * A method display the area
+    * @param g - The display object that has the capability to display the map and the character
+    */
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);

@@ -45,6 +45,11 @@ public class inventory{
         return size;
     }
 
+    /**
+    * Gets the pokemons names inside of the inventory of the user
+    * Its to display inside the GUI
+    * @return names - the list of the user's pokemon names
+    */
     public ArrayList<String> getNames(){
         ArrayList<String> names = new ArrayList<String>();
 
@@ -55,6 +60,11 @@ public class inventory{
         return names;
     }
 
+    /**
+    * Removes the specified pokemon from the inventory
+    * Part of the evolution process
+    * @param target - the target pokemon to be removed from the inventory
+    */
     public void removePokemon(pokemons target){
         for(pokemons p : inventory){
             if(p.getName() == target.getName()){
@@ -65,6 +75,11 @@ public class inventory{
 
     }
 
+    /**
+    * Gets the evolution of the specified pokemon
+    * Part of the evolution process
+    * @param p1 - the pokemon to get the evolution of
+    */
     public pokemons getEvloved(pokemons p1){
         List<pokemons> allList = pokemons.pokeList();
         pokemons test = null;
@@ -78,6 +93,12 @@ public class inventory{
         return test;
     }
     
+    /**
+    * Trys to evolve the two chosend pokemons and adds it into the user's inventory
+    * @param p1 - 1st chosen pokemon of the user to try to evlove
+    * @param p2 - 2nd chosen pokemon of the user to try to evlove
+    * @return 1 for success, 0 for failure
+    */
     public int evolvePokemon(pokemons p1, pokemons p2){
         int ctr = 0;
 

@@ -112,8 +112,12 @@ public class pokemons{
             Pokemons.add(new pokemons("Samuracone", "Water", 3, 'I'));
 
             return Pokemons;
-        }
+    }
 
+    /**
+    * Initializes the variable as the list  of all the names of all the evolution level 1 pokemon
+    * @return names - the list of all the names of evolution level 1 pokemons
+    */
     public static ArrayList<String> loadNameLevel1(){
         List<pokemons> list = pokeList();
         ArrayList<String> names = new ArrayList<>();

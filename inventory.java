@@ -6,6 +6,7 @@ public class inventory{
 
     /**
     * Adds the chosen pokemon to the inventory of the user
+    * @param pokemon - the pokemon to be added inside of the inventory
     */
     public void addPokemon(pokemons pokemon){
         inventory.add(pokemon);
@@ -14,6 +15,7 @@ public class inventory{
     /**
     * Initializes the activePokemon as the chosen pokemon of the user
     * from their inventory.
+    * @param pokemon - the pokemon to be set as the active pokemons of the user
     */
     public void setActivePokemon(pokemons pokemon){
         activePokemon = pokemon;
@@ -79,6 +81,7 @@ public class inventory{
     * Gets the evolution of the specified pokemon
     * Part of the evolution process
     * @param p1 - the pokemon to get the evolution of
+    * @return the evolution of the specified pokemon
     */
     public pokemons getEvloved(pokemons p1){
         List<pokemons> allList = pokemons.pokeList();

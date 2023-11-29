@@ -671,6 +671,7 @@ public class gui extends misc{
     * It is called upon when the 40% chance to have a battle is hit. It contains all of the
     * information of the current enemy and the current active pokemon of the user.
     * Part of the battle phase feature.
+    * @param enemy - the enemy in the current battle
     */
     public void battleWindow(pokemons enemy){
         JFrame frame = new JFrame("Pokemon Master");
@@ -803,6 +804,8 @@ public class gui extends misc{
     /**
     * Deducts the health of the enemy based on the calculations provided for the attack
     * Part of the battle phasefeature.
+    * @param active - the active pokemon of the user
+    * @param healthbar - The JProgressBar that shows the health of the enemy
     */
     public void atkEnemy(pokemons active, JProgressBar healthbar){
         ctr++;
@@ -832,6 +835,7 @@ public class gui extends misc{
     /**
     * Catches (puts into inventory) the enemy based on the calculations provided for the attack
     * Part of the battle phase feature.
+    * @return 0 for failure, 1 for success
     */
     public int catchEnemy(){
         int rate = new Random().nextInt(1, 100), catchRate = 90;

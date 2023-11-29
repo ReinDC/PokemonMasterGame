@@ -1236,7 +1236,6 @@ class misc{
 
 }
 
-
 class map extends JPanel{
     private int mapSize;
     private int pPosX;
